@@ -4,7 +4,7 @@
  * @author Simon Delage <simon.geekitude@gmail.com>
  */
 
-.dokuwiki div.breadcrumbs span.twistienav_twistie;
+.dokuwiki div.breadcrumbs span.twistienav_twistie,
 .dokuwiki div.breadcrumbs span.twistienav_twistie:before,
 .dokuwiki .twistienav_map:before {
     display: none;
