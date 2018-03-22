@@ -27,8 +27,8 @@ var twistienav_plugin = {
 				twistienav_plugin.breadcrumbs('div.breadcrumbs:not(:has("span.bcsep"))', 'yah_ns');
 			}
 		}
-        if ((JSINFO['plugin_twistienav']['pit_skeleton'] != null) && (jQuery('div.pageId').length !== 0)) {
-            twistienav_plugin.pageIdTrace('div.pageId', 'yah_ns');
+        if ((JSINFO['plugin_twistienav']['pit_skeleton'] != null) && (jQuery('.pageId').length !== 0)) {
+            twistienav_plugin.pageIdTrace('.pageId', 'yah_ns');
         }
 
         return;
