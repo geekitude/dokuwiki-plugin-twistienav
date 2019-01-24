@@ -51,6 +51,18 @@ class helper_plugin_twistienav extends DokuWiki_Plugin {
         return array($this->exclusions, $this->nsignore);
     }
 
+    /**
+     * Build a namespace index (list sub-namespaces and pages).
+     *
+     * @param (str)     $idx namespace ID, must not be a page ID.
+     *                  Could be provided with : cleanID(getNS($ID))
+     * @param (bool)    $useexclusions use `exclusions` setting or not
+     * @param (bool)    $split return a simple level or more complex array
+     * @return (arr)    list of sub namespaces and pages found within $idx namespace
+     *
+     * See https://www.dokuwiki.org/plugin:twistienav?do=draft#helper_component for details
+     *
+     */
     function get_idx_data($idx = null, $useexclusions = true, $split = false) {
         global $conf, $ID;
         // From an ajax call (ie. a click on a TwistieNav), $ID value isn't available so we need to get it from another way
