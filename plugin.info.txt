@@ -1,7 +1,7 @@
 base   twistienav
 author Simon Delage
 email  simon.geekitude@gmail.com
-date   2018-03-23
+date   2019-01-24
 name   TwistieNav plugin
 desc   Adds drop-down navigation menus to breadcrumbs
 url    http://www.dokuwiki.org/plugin:twistienav

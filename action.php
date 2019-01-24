@@ -18,35 +18,19 @@ require_once DOKU_PLUGIN.'action.php';
 
 class action_plugin_twistienav extends DokuWiki_Action_Plugin {
 
-    protected $title_metadata = array();
-    protected $exclusions     = array();
+//    protected $title_metadata = array();
+//    protected $exclusions     = array();
 
     function __construct() {
         global $conf;
 
-        // Known plugins that set title and its metadata keys
-        $this->title_metadata = array(
-            'croissant' => 'plugin_croissant_bctitle',
-            'pagetitle' => 'shorttitle',
-        );
-        foreach (array_keys($this->title_metadata) as $plugin) {
-            if(plugin_isdisabled($plugin)) unset($this->title_metadata[$plugin]);
-        }
-        $this->title_metadata[] = 'title';
+        // Load TwistieNav helper component
+        $this->helper = plugin_load('helper','twistienav');
 
-        // Convert "exclusions" config setting (csv) to array
-        foreach (explode(',', $this->getConf('exclusions')) as $page) {
-            switch ($page) {   // care pre-defined keys in multicheckbox
-                case 'start':
-                    $this->exclusions[] = $conf['start'];
-                    break;
-                case 'sidebar':
-                    $this->exclusions[] = $conf['sidebar'];
-                    break;
-                default:
-                    $this->exclusions[] = $page;
-            }
-        }
+        // Get some variables frome helper
+        $this->title_metadata = $this->helper->build_titlemetafields();
+        list($this->exclusions, $this->nsignore) = $this->helper->build_exclusions();
+
     }
 
     /**
@@ -168,13 +152,12 @@ class action_plugin_twistienav extends DokuWiki_Action_Plugin {
     function handle_ajax_call(Doku_Event $event, $params) {
         global $conf;
 
+        $idx  = cleanID($_POST['idx']);
+
         // Process AJAX calls from 'plugin_twistienav' or 'plugin_twistienav_pageid'
-        if (($event->data != 'plugin_twistienav') && ($event->data != 'plugin_twistienav_pageid')) return;
+        if (($event->data != 'plugin_twistienav') && ($event->data != 'plugin_twistienav_pageid') && ($event->data != 'plugin_twistienav_nsindex')) return;
         $event->preventDefault();
         $event->stopPropagation();
-
-        $idx  = cleanID($_POST['idx']);
-        $dir  = utf8_encodeFN(str_replace(':','/',$idx));
 
         // If AJAX caller is from 'pageId' we don't wan't to exclude start pages
         if ($event->data == 'plugin_twistienav_pageid') {
@@ -182,37 +165,23 @@ class action_plugin_twistienav extends DokuWiki_Action_Plugin {
         } else {
             $exclusions = $this->exclusions;
         }
+        // If AJAX caller is from 'pageId' we don't wan't to exclude any pages
+        if ($event->data == 'plugin_twistienav_pageid') {
+            $useexclusions = false;
+        } else {
+            $useexclusions = true;
+        }
 
         $data = array();
-        search($data,$conf['datadir'],'search_index',array('ns' => $idx),$dir);
-
-        if (count($data) != 0) {
+        $this->data = $this->helper->get_idx_data($idx, $useexclusions);
+        if (count($this->data) > 0) {
             echo '<ul>';
-            foreach ($data as $item) {
-                if (in_array(noNS($item['id']), $exclusions)) continue;
-
-                // Build a namespace id that points to it's start page (even if it doesn't exist)
-                if ($item['type'] == 'd') {
-                    $target = $item['id'].':'.$conf['start'];
-                } else {
-                    $target = $item['id'];
-                }
-
-                // Get title of the page from metadata
-                foreach ($this->title_metadata as $plugin => $key) {
-                    $title = p_get_metadata($target, $key, METADATA_DONT_RENDER);
-                    if ($title != null) break;
-                }
-                $title = @$title ?: hsc(noNS($item['id']));
-
-                if ($item['type'] == 'd') {
-                    echo '<li><a href="'.wl($target).'" class="twistienav_ns">'.$title.'</a></li>';
-                } else {
-                    echo '<li>'.html_wikilink($target, $title).'</li>';
-                }
+            foreach ($this->data as $item) {
+                echo '<li>'.$item['link'].'</li>';
             }
             echo '</ul>';
         }
     }
+
 }
 // vim: set fileencoding=utf-8 expandtab ts=4 sw=4 :
