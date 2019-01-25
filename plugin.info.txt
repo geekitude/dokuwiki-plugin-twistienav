@@ -1,6 +1,6 @@
 base   twistienav
-author Simon Delage
-email  simon.geekitude@gmail.com
+author Simon DELAGE
+email  sdelage@gmail.com
 date   2019-01-24
 name   TwistieNav plugin
 desc   Adds drop-down navigation menus to breadcrumbs

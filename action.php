@@ -4,7 +4,7 @@
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author  Håkan Sandell <sandell.hakan@gmail.com>
- * @maintainer: Simon Delage <simon.geekitude@gmail.com>
+ * @maintainer: Simon DELAGE <sdelage@gmail.com>
  */
 
 // must be run within Dokuwiki

@@ -2,7 +2,7 @@
 /**
  * Options for the TwistieNav plugin
  *
- * @author: Simon Delage <simon.geekitude@gmail.com>
+ * @author   Simon DELAGE <sdelage@gmail.com>
  */
 
 $meta['startPagesOnly']     = array('onoff');
