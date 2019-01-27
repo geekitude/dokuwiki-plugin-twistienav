@@ -66,7 +66,11 @@ class helper_plugin_twistienav extends DokuWiki_Plugin {
     function get_idx_data($idx = null, $useexclusions = true, $split = false) {
         global $conf, $ID;
         // From an ajax call (ie. a click on a TwistieNav), $ID value isn't available so we need to get it from another way
-        $ajaxId = ltrim(explode("id=", $_SERVER["HTTP_REFERER"])[1], ":");
+        if ($ID == null) {
+            $ajaxId = ltrim(explode("id=", $_SERVER["HTTP_REFERER"])[1], ":");
+        } else {
+            $ajaxId = null;
+        }
 
         $dir  = utf8_encodeFN(str_replace(':','/',$idx));
         $data = array();
