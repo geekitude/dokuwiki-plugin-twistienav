@@ -45,7 +45,7 @@ class action_plugin_twistienav extends DokuWiki_Action_Plugin {
      * Populate configuration settings to JSINFO
      */
     function populate_jsinfo(Doku_Event $event, $params) {
-        global $JSINFO, $conf, $ID;
+        global $JSINFO, $conf, $ID, $ACT;
 
         // Store settings values in JSINFO
         $JSINFO['conf']['start'] = $conf['start'];
@@ -116,7 +116,7 @@ class action_plugin_twistienav extends DokuWiki_Action_Plugin {
         }
 
         // Build 'pageIdTrace' skeleton if required
-        if (($this->getConf('pageIdTrace')) or ($this->getConf('pageIdExtraTwistie'))) {
+        if ((($this->getConf('pageIdTrace')) or ($this->getConf('pageIdExtraTwistie'))) and ($ACT == "show")) {
             $skeleton = '<span>';
             if ($this->getConf('pageIdTrace')) {
                 $parts = explode(':', $ID);
