@@ -11,3 +11,4 @@ $conf['twistieMap']         = 1;
 $conf['pageIdTrace']        = 1;
 $conf['pageIdExtraTwistie'] = 1;
 $conf['style']              = 'svg';
+$conf['useheading']         = 1;
