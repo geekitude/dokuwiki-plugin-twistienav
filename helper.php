@@ -107,9 +107,12 @@ class helper_plugin_twistienav extends DokuWiki_Plugin {
                     $classes .= "wikilink2";
                 }
                 // Get page title from metadata
-                foreach ($this->title_metadata as $plugin => $pluginkey) {
-                    $title = p_get_metadata($target, $pluginkey, METADATA_DONT_RENDER);
-                    if ($title != null) break;
+                $title = null;
+                if ($this->getConf('useheading')) {
+                    foreach ($this->title_metadata as $plugin => $pluginkey) {
+                        $title = p_get_metadata($target, $pluginkey, METADATA_DONT_RENDER);
+                        if ($title != null) break;
+                    }
                 }
                 $data[$datakey]['id'] = $target;
                 $title = @$title ?: hsc(noNS($item['id']));
