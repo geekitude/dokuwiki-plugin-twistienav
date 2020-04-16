@@ -11,12 +11,12 @@ var twistienav_plugin = {
 
     init: function () {
 		var $match = 0;
-        if ((JSINFO['conf']['breadcrumbs'] > 0) && (jQuery('.youarehere').length !== 0)) {
-            twistienav_plugin.breadcrumbs('.youarehere', 'yah_ns');
+        if ((JSINFO['conf']['breadcrumbs'] > 0) && (jQuery('.trace').length !== 0)) {
+            twistienav_plugin.breadcrumbs('.trace', 'bc_ns');
 			$match++;
         }
-        if ((JSINFO['conf']['youarehere'] == 1) && (jQuery('.trace').length !== 0)) {
-            twistienav_plugin.breadcrumbs('.trace', 'bc_ns');
+        if ((JSINFO['conf']['youarehere'] == 1) && (jQuery('.youarehere').length !== 0)) {
+            twistienav_plugin.breadcrumbs('.youarehere', 'yah_ns');
 			$match++;
         }
         if ($match == 0) {
